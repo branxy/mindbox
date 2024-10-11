@@ -1,3 +1,6 @@
+import { Customers } from "@/components/customers/customers";
+import { SubNav } from "@/components/navbar/subnav/subnav";
+
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
@@ -6,8 +9,9 @@ export const Route = createLazyFileRoute("/")({
 
 function Index() {
   return (
-    <div className="p-2">
-      <h3>Index</h3>
+    <div className="flex h-full">
+      <SubNav />
+      <Customers />
     </div>
   );
 }

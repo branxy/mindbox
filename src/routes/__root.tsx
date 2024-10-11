@@ -1,6 +1,8 @@
-import React from "react";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { Navbar } from "@/components/navbar/navbar";
+
+import { createRootRoute, Outlet } from "@tanstack/react-router";
+
+import React from "react";
 
 // Load TSR devtools in dev mode
 const TanStackRouterDevtools =
@@ -18,12 +20,12 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className="flex h-screen flex-col overflow-hidden md:flex-row">
+    <div className="flex h-screen overflow-hidden">
       <Navbar />
-      <main className="h-full flex-grow overflow-y-auto overflow-x-hidden pb-24 pl-6 pr-3 pt-2 lg:pb-8">
+      <main className="h-full flex-grow overflow-y-auto overflow-x-hidden antialiased">
         <Outlet />
       </main>
-      <TanStackRouterDevtools position="top-right" />
+      <TanStackRouterDevtools position="bottom-right" />
     </div>
   );
 }

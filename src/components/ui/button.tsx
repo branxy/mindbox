@@ -20,6 +20,9 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         mbNavItem: "bg-none hover:bg-[#393d41] px-2",
+        mbSubNavItem: "hover:bg-[#edfaf2] text-[#637076]",
+        mbCustomersHeaderActions:
+          "border-[#bfccd4] hover:border-slate-600 bg-white text-[#282a2f] border-[1px] transition ease-in",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -13,6 +13,7 @@ export default {
         mbBg: "#282a2f",
         mbIcon: "#a9aaac",
         mbBorder: "#393d41",
+        mbDivider: "#dae3e8",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -54,6 +55,13 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      gridTemplateColumns: {
+        customersTable:
+          "20px minmax(250px, 10fr) minmax(200px, 6fr) minmax(250px, 6fr) minmax(120px, 3fr);",
+      },
+    },
+    fontFamily: {
+      inter: ["Inter", "sans-serif"],
     },
   },
   plugins: [require("tailwindcss-animate")],

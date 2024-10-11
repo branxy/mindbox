@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { MindboxIcon } from "./mindbox-icon";
+import { MindboxIcon } from "@/components/navbar/mindbox-icon";
+import { Icon } from "@/components/icon";
+import { NavbarItem } from "@/components/navbar/navbar-item";
 import {
   Tooltip,
   TooltipContent,
@@ -10,19 +12,16 @@ import {
   Blocks,
   ChartColumnIncreasing,
   CircleHelp,
-  LucideProps,
   Megaphone,
   Search,
   Settings,
   User,
   Users,
 } from "lucide-react";
-import { NavbarItem } from "./navbar-item";
-import { ComponentType } from "react";
 
 export function Navbar() {
   return (
-    <div className="bg-mbBg flex w-14 flex-col items-center justify-start">
+    <aside className="bg-mbBg flex w-14 flex-col items-center justify-start">
       <Link
         to="/"
         className="border-b-mbBorder mb-1 flex w-full items-center justify-center border-b-[1px] px-2 py-2.5 pt-2 leading-[16.2px]"
@@ -74,19 +73,9 @@ export function Navbar() {
         </li>
       </ul>
       <CurrentTime />
-    </div>
+    </aside>
   );
 }
-
-interface IconSettingsProps extends LucideProps {
-  icon: ComponentType<LucideProps>;
-}
-
-const Icon = ({ icon: Icon, ...props }: IconSettingsProps) => {
-  return (
-    <Icon size={24} strokeWidth={1.5} className="text-mbIcon" {...props} />
-  );
-};
 
 const CurrentTime = () => {
   const date = new Date(),
