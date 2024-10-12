@@ -59,6 +59,9 @@ export default {
         customersTable:
           "20px minmax(250px, 10fr) minmax(200px, 6fr) minmax(250px, 6fr) minmax(120px, 3fr);",
       },
+      cursor: {
+        edit: "url(/pencil.svg), pointer"
+      }
     },
     fontFamily: {
       inter: ["Inter", "sans-serif"],

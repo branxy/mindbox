@@ -21,7 +21,7 @@ export function CustomersHeaderActionBtns() {
       </Button>
       <Button
         variant="mbCustomersHeaderActions"
-        className="gap-2 border-none bg-[#ebeff0] text-[#637076]"
+        className="cursor-not-allowed gap-2 border-none bg-[#ebeff0] text-[#637076]"
       >
         <CustomersHeaderActionBtnsIconIcon icon={Upload} size={18} />
         <div className="flex items-center gap-1.5">

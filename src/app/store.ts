@@ -1,7 +1,8 @@
+import customerSliceReducer from "@/features/customers/customersSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: customerSliceReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
