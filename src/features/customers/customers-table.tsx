@@ -8,7 +8,7 @@ export function CustomersTable() {
   const customers = useAppSelector(selectAllCustomers);
 
   return (
-    <table className="w-full">
+    <table className="mt-5 w-full">
       <CustomersTableHead />
       <CustomersTableBody customers={customers} />
     </table>

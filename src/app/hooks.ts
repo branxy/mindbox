@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { customerChanged } from "@/features/customers/customersSlice";
 
-import { Customer } from "@/features/customers/types";
+import { Customer, EditableCustomerFields } from "@/features/customers/types";
 import { type AppDispatch, type RootState } from "@/app/store";
 
 import { useCallback, useState } from "react";
@@ -58,7 +58,7 @@ export type TransactionTemplateFormError<T> = {
 interface HandleFormSubmitParams {
   e: React.FormEvent<HTMLFormElement>;
   customerId: Customer["id"];
-  customerFieldName: keyof Pick<Customer, "name" | "phone" | "email">;
+  customerFieldName: keyof EditableCustomerFields;
 }
 
 interface ValidateInputParams {

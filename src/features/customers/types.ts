@@ -8,3 +8,5 @@ export interface Customer {
 }
 
 export type Customers = Customer[];
+
+export type EditableCustomerFields = Pick<Customer, "name" | "phone" | "email">;

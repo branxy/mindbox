@@ -23,6 +23,8 @@ const buttonVariants = cva(
         mbSubNavItem: "hover:bg-[#edfaf2] text-[#637076]",
         mbCustomersHeaderActions:
           "border-[#bfccd4] hover:border-slate-600 bg-white text-[#282a2f] border-[1px] transition ease-in",
+        mbPrimary:
+          "bg-mbPrimary border-[1px] hover:border-slate-600 hover:bg-mbPrimary/90 transition ease-in text-white",
       },
       size: {
         default: "h-9 px-4 py-2",

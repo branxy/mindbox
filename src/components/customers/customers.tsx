@@ -1,17 +1,21 @@
 import { CustomersTable } from "@/features/customers/customers-table";
 import { CustomersHeaderActionBtns } from "@/components/customers/customers-header-action-btns";
+import { CustomersTableActionPanel } from "@/features/customers/customers-table-action-panel";
 
 export function Customers() {
   return (
     <div className="w-full px-6">
       <CustomersHeader />
-      <CustomersTable />
+      <div>
+        <CustomersTableActionPanel />
+        <CustomersTable />
+      </div>
     </div>
   );
 }
 
 const CustomersHeader = () => (
-  <div className="mb-12 flex h-[70px] justify-between py-4">
+  <div className="mb-16 flex h-[70px] justify-between py-4">
     <div className="flex items-center">
       <CustomersHeaderIcon />
       <h1 className="font-inter text-xl font-medium">Клиенты</h1>

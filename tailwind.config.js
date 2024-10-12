@@ -10,6 +10,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        mbPrimary: "#028F69",
         mbBg: "#282a2f",
         mbIcon: "#a9aaac",
         mbBorder: "#393d41",
@@ -60,8 +61,8 @@ export default {
           "20px minmax(250px, 10fr) minmax(200px, 6fr) minmax(250px, 6fr) minmax(120px, 3fr);",
       },
       cursor: {
-        edit: "url(/pencil.svg), pointer"
-      }
+        edit: "url(/pencil.svg), pointer",
+      },
     },
     fontFamily: {
       inter: ["Inter", "sans-serif"],

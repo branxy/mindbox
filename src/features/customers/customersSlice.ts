@@ -31,6 +31,10 @@ export const customersSlice = createSlice({
   name: "customers",
   initialState,
   reducers: (create) => ({
+    customerAdded: create.reducer<Omit<Customer, "id">>((state, action) => {
+      customersAdapter.addOne(state, { ...action.payload, id: nanoid() });
+      saveToLocalStorage("mb-customers", state);
+    }),
     customerChanged: create.reducer<Update<Customer, Customer["id"]>>(
       (state, action) => {
         customersAdapter.updateOne(state, action.payload);
@@ -40,7 +44,7 @@ export const customersSlice = createSlice({
   }),
 });
 
-export const { customerChanged } = customersSlice.actions;
+export const { customerAdded, customerChanged } = customersSlice.actions;
 
 export const { selectAll: selectAllCustomers, selectById: selectCustomerById } =
   customersAdapter.getSelectors();

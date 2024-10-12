@@ -8,7 +8,7 @@ export function CustomersTableHead({}: CustomersTableHeadProps) {
   const [checked, setChecked] = useState<"indeterminate" | boolean>(false);
   return (
     <thead>
-      <tr className="grid h-12 grid-flow-col grid-cols-customersTable gap-4 border-y-[1px] border-mbDivider px-4 py-3">
+      <tr className="grid h-12 grid-flow-col grid-cols-customersTable items-center gap-4 border-y-[1px] border-mbDivider px-4 py-3">
         <CustomersTableCheckbox checked={checked} setChecked={setChecked} />
         <CustomersTableColumnHead>Клиент</CustomersTableColumnHead>
         <CustomersTableColumnHead>Телефон</CustomersTableColumnHead>
