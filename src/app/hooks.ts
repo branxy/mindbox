@@ -4,10 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { customerChanged } from "@/features/customers/customersSlice";
 
-import { Customer, EditableCustomerFields } from "@/features/customers/types";
+import type {
+  Customer,
+  Customers,
+  EditableCustomerFields,
+} from "@/features/customers/types";
 import { type AppDispatch, type RootState } from "@/app/store";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
@@ -149,5 +153,74 @@ export const useEditTableField = () => {
     setIsEditing,
     formError,
     handleFormSubmit,
+  } as const;
+};
+
+export type TSelectedCustomers = Array<Customer["id"]>;
+
+export const useSelectCustomers = (tableRows: Customers) => {
+  const [selectedCustomerIds, setSelectedCustomerIds] =
+    useState<TSelectedCustomers>([]);
+  const lastSelectedCustomerRef = useRef<HTMLTableRowElement>(null!);
+  const singleCustomerSelected = selectedCustomerIds.length === 1;
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        singleCustomerSelected &&
+        lastSelectedCustomerRef.current &&
+        !lastSelectedCustomerRef.current.contains(e.target as Node)
+      ) {
+        setSelectedCustomerIds([]);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [singleCustomerSelected, selectedCustomerIds]);
+
+  const isCheckedCheckbox =
+    selectedCustomerIds.length === 0
+      ? false
+      : selectedCustomerIds.length === tableRows.length
+        ? true
+        : "indeterminate";
+
+  const handleSelectCustomer = useCallback(
+    (customerId: Customer["id"]) => {
+      if (!selectedCustomerIds.length) {
+        setSelectedCustomerIds([customerId]);
+      } else if (!selectedCustomerIds.includes(customerId)) {
+        setSelectedCustomerIds((prev) => [...prev, customerId]);
+      } else {
+        setSelectedCustomerIds((prev) =>
+          prev.filter((id) => id !== customerId),
+        );
+      }
+    },
+    [selectedCustomerIds],
+  );
+
+  const handleSelectAllCustomers = useCallback(() => {
+    if (selectedCustomerIds.length < tableRows.length) {
+      const allCustomerIds = tableRows.map((c) => c.id);
+      setSelectedCustomerIds(allCustomerIds);
+    } else setSelectedCustomerIds([]);
+  }, [tableRows, selectedCustomerIds]);
+
+  const handleUpdateLastSelectedCustomerRef = (
+    rowRef: React.MutableRefObject<HTMLTableRowElement>,
+  ) => {
+    lastSelectedCustomerRef.current = rowRef.current;
+  };
+
+  return {
+    selectedCustomerIds,
+    setSelectedCustomerIds,
+    isCheckedCheckbox,
+    handleSelectCustomer,
+    handleSelectAllCustomers,
+    handleUpdateLastSelectedCustomerRef,
   } as const;
 };

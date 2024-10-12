@@ -1,15 +1,28 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
-import { PropsWithChildren, useState } from "react";
+import { useSelectCustomers } from "@/app/hooks";
 
-export interface CustomersTableHeadProps {}
+import { PropsWithChildren } from "react";
 
-export function CustomersTableHead({}: CustomersTableHeadProps) {
-  const [checked, setChecked] = useState<"indeterminate" | boolean>(false);
+export interface CustomersTableHeadProps {
+  isCheckedCheckbox: ReturnType<typeof useSelectCustomers>["isCheckedCheckbox"];
+  handleSelectAllCustomers: ReturnType<
+    typeof useSelectCustomers
+  >["handleSelectAllCustomers"];
+}
+
+export function CustomersTableHead({
+  isCheckedCheckbox,
+  handleSelectAllCustomers,
+}: CustomersTableHeadProps) {
   return (
     <thead>
       <tr className="grid h-12 grid-flow-col grid-cols-customersTable items-center gap-4 border-y-[1px] border-mbDivider px-4 py-3">
-        <CustomersTableCheckbox checked={checked} setChecked={setChecked} />
+        <CustomersTableCheckbox
+          checked={isCheckedCheckbox}
+          handleSelectAllCustomers={handleSelectAllCustomers}
+        />
         <CustomersTableColumnHead>Клиент</CustomersTableColumnHead>
         <CustomersTableColumnHead>Телефон</CustomersTableColumnHead>
         <CustomersTableColumnHead>Email</CustomersTableColumnHead>
@@ -21,23 +34,25 @@ export function CustomersTableHead({}: CustomersTableHeadProps) {
 
 interface CustomersTableCheckboxProps {
   checked: boolean | "indeterminate";
-  setChecked: React.Dispatch<React.SetStateAction<boolean | "indeterminate">>;
+  handleSelectAllCustomers: ReturnType<
+    typeof useSelectCustomers
+  >["handleSelectAllCustomers"];
 }
 
 const CustomersTableCheckbox = ({
   checked,
-  setChecked,
+  handleSelectAllCustomers,
 }: CustomersTableCheckboxProps) => {
   return (
-    <th>
-      <label htmlFor="select-customers" className="relative">
-        <Checkbox
-          id="select-customers"
-          checked={checked}
-          onCheckedChange={setChecked}
-          className=""
-        />
-      </label>
+    <th className="flex">
+      <Label htmlFor="select-customers" className="sr-only">
+        Выделить всех клиентов
+      </Label>
+      <Checkbox
+        id="select-customers"
+        checked={checked}
+        onCheckedChange={handleSelectAllCustomers}
+      />
     </th>
   );
 };

@@ -6,7 +6,8 @@ import {
 } from "@reduxjs/toolkit";
 import { getFromLocalStorage, saveToLocalStorage } from "@/lib/utils";
 
-import { Customer } from "@/features/customers/types";
+import type { Customer } from "@/features/customers/types";
+import { type TSelectedCustomers } from "@/app/hooks";
 
 const customersAdapter = createEntityAdapter<Customer>();
 
@@ -41,10 +42,15 @@ export const customersSlice = createSlice({
         saveToLocalStorage("mb-customers", state);
       },
     ),
+    customersDeleted: create.reducer<TSelectedCustomers>((state, action) => {
+      customersAdapter.removeMany(state, action.payload);
+      saveToLocalStorage("mb-customers", state);
+    }),
   }),
 });
 
-export const { customerAdded, customerChanged } = customersSlice.actions;
+export const { customerAdded, customerChanged, customersDeleted } =
+  customersSlice.actions;
 
 export const { selectAll: selectAllCustomers, selectById: selectCustomerById } =
   customersAdapter.getSelectors();

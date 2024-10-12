@@ -1,5 +1,5 @@
-import { CustomersTableTabs } from "./customers-table-tabs";
-import { CustomersTableAddCustomerForm } from "./customers-table-add-customer-form";
+import { CustomersTableTabs } from "@/features/customers/customers-table-tabs";
+import { CustomersTableAddCustomerForm } from "@/features/customers/customers-table-add-customer-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,16 +8,48 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { Icon } from "@/components/icon";
+
+import { customersDeleted } from "@/features/customers/customersSlice";
+
+import { TSelectedCustomers, useAppDispatch } from "@/app/hooks";
 
 import { useState } from "react";
 
-export function CustomersTableActionPanel() {
+interface CustomersTableActionsProps {
+  selectedCustomerIds: TSelectedCustomers;
+  setSelectedCustomerIds: React.Dispatch<
+    React.SetStateAction<TSelectedCustomers>
+  >;
+}
+
+export function CustomersTableActions({
+  selectedCustomerIds,
+  setSelectedCustomerIds,
+}: CustomersTableActionsProps) {
+  const dispatch = useAppDispatch();
+  const hasSelectedCustomers = selectedCustomerIds.length > 0;
+
+  const handleDeleteSelectedCustomers = () => {
+    dispatch(customersDeleted(selectedCustomerIds));
+    setSelectedCustomerIds([]);
+  };
+
   return (
     <div className="flex h-auto justify-between">
       <CustomersTableTabs />
-      <CustomersTableAddCustomerBtn />
+      <div className="flex gap-4">
+        <Button
+          variant="destructive"
+          onClick={handleDeleteSelectedCustomers}
+          disabled={!hasSelectedCustomers}
+          className="disabled:cursor-not-allowed"
+        >
+          <Trash size={24} strokeWidth={1.5} />
+        </Button>
+        <CustomersTableAddCustomerBtn />
+      </div>
     </div>
   );
 }

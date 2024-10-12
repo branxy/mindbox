@@ -1,14 +1,41 @@
 import { CustomersTable } from "@/features/customers/customers-table";
 import { CustomersHeaderActionBtns } from "@/components/customers/customers-header-action-btns";
-import { CustomersTableActionPanel } from "@/features/customers/customers-table-action-panel";
+import { CustomersTableActions } from "@/features/customers/customers-table-action-panel";
+
+import { useAppSelector } from "@/app/hooks";
+import { useSelectCustomers } from "@/app/hooks";
+import { selectAllCustomers } from "@/features/customers/customersSlice";
 
 export function Customers() {
+  const customers = useAppSelector(selectAllCustomers);
+
+  const {
+    selectedCustomerIds,
+    setSelectedCustomerIds,
+    isCheckedCheckbox,
+    handleSelectCustomer,
+    handleSelectAllCustomers,
+    handleUpdateLastSelectedCustomerRef,
+  } = useSelectCustomers(customers);
+
   return (
     <div className="w-full overflow-y-auto px-6">
       <CustomersHeader />
       <div className="pb-20">
-        <CustomersTableActionPanel />
-        <CustomersTable />
+        <CustomersTableActions
+          selectedCustomerIds={selectedCustomerIds}
+          setSelectedCustomerIds={setSelectedCustomerIds}
+        />
+        <CustomersTable
+          customers={customers}
+          selectedCustomerIds={selectedCustomerIds}
+          handleSelectCustomer={handleSelectCustomer}
+          isCheckedCheckbox={isCheckedCheckbox}
+          handleSelectAllCustomers={handleSelectAllCustomers}
+          handleUpdateLastSelectedCustomerRef={
+            handleUpdateLastSelectedCustomerRef
+          }
+        />
       </div>
     </div>
   );
