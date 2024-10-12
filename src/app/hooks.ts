@@ -44,8 +44,24 @@ export const zCustomerEmail = z
   });
 
 export const zCustomer = z.object({
-  name: zCustomerName,
-  phone: zCustomerPhone,
+  name: z
+    .string({
+      message: "Title must be of text format",
+    })
+    .trim()
+    .max(80, {
+      message: "Title couldn't be longer than 80 characters",
+    })
+    .optional(),
+  phone: z
+    .string({
+      message: "Phone must be of text format",
+    })
+    .trim()
+    .refine((val) => (!val ? true : val.length === 11), {
+      message: "Phone must have 11 characters",
+    })
+    .optional(),
   email: zCustomerEmail,
 });
 

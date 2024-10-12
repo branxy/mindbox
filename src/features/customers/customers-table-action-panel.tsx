@@ -13,11 +13,9 @@ import { Icon } from "@/components/icon";
 
 import { useState } from "react";
 
-export interface CustomersTableActionPanelProps {}
-
-export function CustomersTableActionPanel({}: CustomersTableActionPanelProps) {
+export function CustomersTableActionPanel() {
   return (
-    <div className="flex justify-between">
+    <div className="flex h-auto justify-between">
       <CustomersTableTabs />
       <CustomersTableAddCustomerBtn />
     </div>

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/form-error";
 
 import { useEditTableField } from "@/app/hooks";
+import { cn } from "@/lib/utils";
 
 import { Customer } from "@/features/customers/types";
 
@@ -52,10 +53,13 @@ export function CustomersTableRowPhone({
     return (
       <td className="cursor-edit">
         <span
-          className="cursor-edit flex h-full max-w-fit pr-4"
+          className={cn(
+            "cursor-edit flex h-full max-w-fit pr-4",
+            !phone && "text-gray-400",
+          )}
           onClick={() => setIsEditing(true)}
         >
-          {phone}
+          {phone || "—"}
         </span>
       </td>
     );

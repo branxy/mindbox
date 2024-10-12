@@ -3,12 +3,13 @@ import { Label } from "@/components/ui/label";
 import { FormError } from "@/components/form-error";
 
 import { useEditTableField } from "@/app/hooks";
+import { cn } from "@/lib/utils";
 
 import { Customer } from "@/features/customers/types";
 
 export interface CustomersTableRowTitleProps {
   customerId: Customer["id"];
-  name: string;
+  name: Customer["name"];
 }
 
 export function CustomersTableRowTitle({
@@ -48,10 +49,13 @@ export function CustomersTableRowTitle({
     return (
       <td>
         <span
-          className="cursor-edit flex h-full max-w-fit pr-4"
+          className={cn(
+            "cursor-edit flex h-full max-w-fit pr-4",
+            !name && "text-gray-400",
+          )}
           onClick={() => setIsEditing(true)}
         >
-          {name}
+          {name || "Не указаны ФИО"}
         </span>
       </td>
     );

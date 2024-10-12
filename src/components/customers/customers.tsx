@@ -4,9 +4,9 @@ import { CustomersTableActionPanel } from "@/features/customers/customers-table-
 
 export function Customers() {
   return (
-    <div className="w-full px-6">
+    <div className="w-full overflow-y-auto px-6">
       <CustomersHeader />
-      <div>
+      <div className="pb-20">
         <CustomersTableActionPanel />
         <CustomersTable />
       </div>

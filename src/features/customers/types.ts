@@ -2,11 +2,13 @@ import { nanoid } from "@reduxjs/toolkit";
 
 export interface Customer {
   id: ReturnType<typeof nanoid>;
-  name: string;
+  name?: string;
   phone?: string;
-  email?: string;
+  email: string;
 }
 
 export type Customers = Customer[];
 
 export type EditableCustomerFields = Pick<Customer, "name" | "phone" | "email">;
+
+export type Tabs = "all" | "filled" | "blank";

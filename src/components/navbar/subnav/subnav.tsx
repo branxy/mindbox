@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
+
 import { cn } from "@/lib/utils";
+
 import { ComponentProps } from "react";
 
 export function SubNav() {
   return (
-    <div className="border-r-mbDivider flex h-full w-60 shrink-0 flex-col items-center border-r-[1px]">
-      <div className="font-inter border-b-mbDivider flex w-full justify-start border-b-[1px] px-8 py-4 text-sm font-medium">
+    <div className="flex h-screen w-60 shrink-0 flex-col items-center overflow-hidden border-r-[1px] border-r-mbDivider">
+      <div className="flex w-full justify-start border-b-[1px] border-b-mbDivider px-8 py-4 font-inter text-sm font-medium">
         Данные
       </div>
       <div className="flex w-full flex-col items-center">
@@ -30,7 +32,7 @@ const SubNavItem = ({ title, className, ...props }: SubNavItemProps) => {
     <li className="mr-[calc(100% - 208px)] w-full">
       <Button
         variant="mbSubNavItem"
-        className={cn(className, "font-inter w-full justify-start font-normal")}
+        className={cn(className, "w-full justify-start font-inter font-normal")}
         {...props}
       >
         {title}

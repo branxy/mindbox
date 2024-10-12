@@ -21,10 +21,11 @@ import {
 
 export function Navbar() {
   return (
-    <aside className="bg-mbBg flex w-14 flex-col items-center justify-start">
+    <aside className="flex w-14 flex-col items-center justify-start bg-mbBg">
       <Link
         to="/"
-        className="border-b-mbBorder mb-1 flex w-full items-center justify-center border-b-[1px] px-2 py-2.5 pt-2 leading-[16.2px]"
+        search={{ tab: "all" }}
+        className="mb-1 flex w-full items-center justify-center border-b-[1px] border-b-mbBorder px-2 py-2.5 pt-2 leading-[16.2px]"
       >
         <MindboxIcon />
       </Link>
@@ -96,7 +97,7 @@ const CurrentTime = () => {
     <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="text-mbIcon border-t-mbBorder shrink-0 border-t-[1px] py-2">
+          <span className="shrink-0 border-t-[1px] border-t-mbBorder py-2 text-mbIcon">
             {time}
           </span>
         </TooltipTrigger>
