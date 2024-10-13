@@ -11,7 +11,7 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 
-import { act, screen } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 let history: RouterHistory;
@@ -166,5 +166,38 @@ describe("Customers table create/update/delete operations", () => {
     await editName();
     await editPhone();
     await editEmail();
+  });
+
+  it("delete a customer", async () => {
+    const deleteCustomer = async () => {
+      const row = screen.getByRole("row", {
+        name: /иван 89111234567 ivan@gmail\.com/i,
+      });
+
+      const checkbox = await within(row).getByRole("checkbox");
+      expect(checkbox).toBeVisible();
+      await user.click(checkbox);
+      expect(checkbox).toBeChecked();
+
+      const deleteBtn = await screen.getByRole("button", {
+        name: /удалить клиента\(-ов\)/i,
+      });
+      expect(deleteBtn).toBeVisible();
+      expect(deleteBtn).not.toBeDisabled();
+      await user.click(deleteBtn);
+
+      expect(row).not.toBeInTheDocument();
+    };
+
+    const router = createTSRRouter("all", history);
+    await act(async () =>
+      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' behavior or performance.
+      renderWithProviders(<RouterProvider router={router} />, {
+        preloadedState: exampleCustomersNormalized,
+      }),
+    );
+
+    await findByRole("table");
+    await deleteCustomer();
   });
 });

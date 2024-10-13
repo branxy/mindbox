@@ -42,6 +42,7 @@ export function CustomersTableActions({
       <div className="flex gap-4">
         <Button
           variant="destructive"
+          aria-label="Удалить клиента(-ов)"
           onClick={handleDeleteSelectedCustomers}
           disabled={!hasSelectedCustomers}
           className="disabled:cursor-not-allowed"
