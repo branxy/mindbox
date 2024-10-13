@@ -32,10 +32,16 @@
     "./src/features/customers/customers-table-tabs.tsx",
     "./src/features/customers/customers-table.tsx",
     "./src/features/customers/customersslice.ts",
+    "./src/features/customers/examplecustomersstate.ts",
     "./src/features/customers/types.ts",
+    "./src/lib/test-utils.tsx",
     "./src/lib/utils.ts",
     "./src/routes/__root.tsx",
-    "./src/routes/index.tsx"
+    "./src/routes/index.tsx",
+    "./src/tests/customers-table-tabs.test.tsx",
+    "./src/tests/customers-table.test.tsx",
+    "./src/tests/customers.test.tsx",
+    "./src/tests/vitest.setup.ts"
   ],
   "version": "5.6.3"
 }
