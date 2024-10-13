@@ -34,6 +34,7 @@ export function CustomersTableRowTitle({
             Редактировать имя клиента
           </Label>
           <Input
+            data-testid={customerId + "-tableTitleInput"}
             type="text"
             name="customer-table-name"
             id="customer-table-name"

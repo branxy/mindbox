@@ -33,6 +33,7 @@ export function CustomersTableRowEmail({
             Редактировать электронную почту клиента
           </Label>
           <Input
+            data-testid={customerId + "-tableEmailInput"}
             type="email"
             name="customer-table-email"
             id="customer-table-email"

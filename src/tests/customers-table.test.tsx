@@ -1,4 +1,7 @@
-import { exampleCustomersNormalized } from "@/features/customers/exampleCustomersState";
+import {
+  exampleCustomers,
+  exampleCustomersNormalized,
+} from "@/features/customers/exampleCustomersState";
 import userEvent from "@testing-library/user-event";
 import { createTSRRouter, renderWithProviders } from "@/lib/test-utils";
 
@@ -23,6 +26,8 @@ afterEach(() => {
 });
 
 describe("Customers table create/update/delete operations", () => {
+  const user = userEvent.setup();
+
   const findByRole = async (
     role: Parameters<typeof screen.findByRole>["0"],
     options?: Parameters<typeof screen.findByRole>["1"],
@@ -32,12 +37,10 @@ describe("Customers table create/update/delete operations", () => {
     return element;
   };
 
-  it("creates a new customer", async () => {
-    const user = userEvent.setup();
-
+  it("create a new customer", async () => {
     const router = createTSRRouter("all", history);
     await act(async () =>
-      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' performance.
+      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' behavior or performance.
       renderWithProviders(<RouterProvider router={router} />, {
         preloadedState: exampleCustomersNormalized,
       }),
@@ -90,5 +93,78 @@ describe("Customers table create/update/delete operations", () => {
     await findByRole("row", {
       name: /test name 89111234567 test@mail\.com/i,
     });
+  });
+
+  it("edit default customer", async () => {
+    const editName = async () => {
+      const customerName = await screen.getByText(/иван/i);
+      expect(customerName).toBeVisible();
+
+      await user.click(customerName);
+      expect(customerName).not.toBeVisible();
+      const customerNameInput = await screen.getByTestId(
+        exampleCustomers[0].id + "-tableTitleInput",
+      );
+      expect(customerNameInput).toBeVisible();
+      await user.type(customerNameInput, " тест");
+      expect(customerNameInput).toHaveValue("Иван тест");
+      await user.keyboard("{Enter}");
+      expect(customerNameInput).not.toBeVisible();
+      expect(await screen.getByText(/иван тест/i)).toBeVisible();
+    };
+
+    const editPhone = async () => {
+      const customerPhone = await screen.getByText(/89111234567/i);
+      expect(customerPhone).toBeVisible();
+
+      await user.click(customerPhone);
+      expect(customerPhone).not.toBeVisible();
+      const customerPhoneInput = await screen.getByTestId(
+        exampleCustomers[0].id + "-tablePhoneInput",
+      );
+      expect(customerPhoneInput).toBeVisible();
+      await user.keyboard("{Backspace}");
+      expect(customerPhoneInput).toHaveValue("8911123456");
+      await user.type(customerPhoneInput, "0");
+      expect(customerPhoneInput).toHaveValue("89111234560");
+      await user.keyboard("{Enter}");
+      expect(customerPhoneInput).not.toBeVisible();
+      expect(await screen.getByText(/89111234560/i)).toBeVisible();
+    };
+
+    const editEmail = async () => {
+      const customerEmail = await screen.getByText(/ivan@gmail.com/i);
+      expect(customerEmail).toBeVisible();
+
+      await user.click(customerEmail);
+      expect(customerEmail).not.toBeVisible();
+      const customerEmailInput = await screen.getByTestId(
+        exampleCustomers[0].id + "-tableEmailInput",
+      );
+      expect(customerEmailInput).toBeVisible();
+      expect(customerEmailInput).toHaveFocus();
+      expect(customerEmailInput).toHaveValue("ivan@gmail.com");
+      await user.clear(customerEmailInput);
+      expect(customerEmailInput).toHaveValue("");
+      await user.type(customerEmailInput, "test@mail.com");
+      expect(customerEmailInput).toHaveValue("test@mail.com");
+      await user.keyboard("{Enter}");
+      expect(customerEmailInput).not.toBeVisible();
+      expect(await screen.getByText(/test@mail.com/i)).toBeVisible();
+    };
+
+    const router = createTSRRouter("all", history);
+    await act(async () =>
+      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' behavior or performance.
+      renderWithProviders(<RouterProvider router={router} />, {
+        preloadedState: exampleCustomersNormalized,
+      }),
+    );
+
+    await findByRole("table");
+
+    await editName();
+    await editPhone();
+    await editEmail();
   });
 });

@@ -38,6 +38,7 @@ export function CustomersTableRowPhone({
             Редактировать телефон клиента
           </Label>
           <Input
+            data-testid={customerId + "-tablePhoneInput"}
             type="tel"
             name="customer-table-phone"
             id="customer-table-phone"

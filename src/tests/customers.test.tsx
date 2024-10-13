@@ -34,7 +34,7 @@ describe("Customers render", () => {
   it("by default with `exampleCustomers`", async () => {
     const router = createTSRRouter("all", history);
     await act(async () =>
-      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' performance.
+      // @ts-expect-error The error on the router prop, as I understand it, comes from mismatch in types between this test router and the app router defined in routeTree.gen.ts. I didn't try to fix it because it doesn't affect the tests' behavior or performance.
       renderWithProviders(<RouterProvider router={router} />, {
         preloadedState: exampleCustomersNormalized,
       }),
