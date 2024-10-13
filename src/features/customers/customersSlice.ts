@@ -5,26 +5,15 @@ import {
   Update,
 } from "@reduxjs/toolkit";
 import { getFromLocalStorage, saveToLocalStorage } from "@/lib/utils";
+import { exampleCustomers } from "@/features/customers/exampleCustomersState";
 
 import type { Customer } from "@/features/customers/types";
 import { type TSelectedCustomers } from "@/app/hooks";
 
 const customersAdapter = createEntityAdapter<Customer>();
 
-const dataFromLocalStorage = getFromLocalStorage("mb-customers") ?? [
-  {
-    id: nanoid(),
-    name: "Иван",
-    email: "ivan@gmail.com",
-    phone: "89111234567",
-  },
-  {
-    id: nanoid(),
-    name: "Антон",
-    email: "anton@gmail.com",
-    phone: "89119876543",
-  },
-];
+const dataFromLocalStorage =
+  getFromLocalStorage("mb-customers") ?? exampleCustomers;
 
 const initialState = customersAdapter.getInitialState({}, dataFromLocalStorage);
 
