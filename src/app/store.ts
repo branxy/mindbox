@@ -1,9 +1,19 @@
 import customerSliceReducer from "@/features/customers/customersSlice";
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-export const store = configureStore({
-  reducer: customerSliceReducer,
+const rootReducer = combineReducers({
+  customers: customerSliceReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+};
+
+export const store = setupStore();
+
+export type AppStore = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
