@@ -7,7 +7,9 @@ import { useSelectCustomers } from "@/app/hooks";
 import { selectAllCustomers } from "@/features/customers/customersSlice";
 
 export function Customers() {
-  const customers = useAppSelector(selectAllCustomers);
+  const customers = useAppSelector((state) =>
+    selectAllCustomers(state.customers),
+  );
 
   const {
     selectedCustomerIds,
