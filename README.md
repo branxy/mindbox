@@ -29,3 +29,4 @@
 - Навигация (routing): Tanstack Router
 - Типизация: TypeScript
 - Валидация: Zod
+- Тесты: Vitest, RTL
