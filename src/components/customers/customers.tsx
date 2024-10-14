@@ -6,10 +6,13 @@ import { useAppSelector } from "@/app/hooks";
 import { useSelectCustomers } from "@/app/hooks";
 import { selectAllCustomers } from "@/features/customers/customersSlice";
 
+import { useState } from "react";
+
 export function Customers() {
   const customers = useAppSelector((state) =>
     selectAllCustomers(state.customers),
   );
+  const [isInfiniteScroll, setIsInfiniteScroll] = useState(false);
 
   const {
     selectedCustomerIds,
@@ -21,12 +24,14 @@ export function Customers() {
   } = useSelectCustomers(customers);
 
   return (
-    <div className="w-full overflow-y-auto px-6">
+    <div className="w-full overflow-y-auto overflow-x-hidden px-6">
       <CustomersHeader />
       <div className="pb-20">
         <CustomersTableActions
           selectedCustomerIds={selectedCustomerIds}
           setSelectedCustomerIds={setSelectedCustomerIds}
+          isInfiniteScroll={isInfiniteScroll}
+          setIsInfiniteScroll={setIsInfiniteScroll}
         />
         <CustomersTable
           customers={customers}
@@ -37,6 +42,7 @@ export function Customers() {
           handleUpdateLastSelectedCustomerRef={
             handleUpdateLastSelectedCustomerRef
           }
+          isInfiniteScroll={isInfiniteScroll}
         />
       </div>
     </div>

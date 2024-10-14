@@ -20,6 +20,7 @@ export interface CustomersTableProps {
   handleUpdateLastSelectedCustomerRef: ReturnType<
     typeof useSelectCustomers
   >["handleUpdateLastSelectedCustomerRef"];
+  isInfiniteScroll: boolean;
 }
 
 export function CustomersTable({
@@ -29,21 +30,25 @@ export function CustomersTable({
   isCheckedCheckbox,
   handleSelectAllCustomers,
   handleUpdateLastSelectedCustomerRef,
+  isInfiniteScroll,
 }: CustomersTableProps) {
   return (
-    <table className="w-full">
-      <CustomersTableHead
-        isCheckedCheckbox={isCheckedCheckbox}
-        handleSelectAllCustomers={handleSelectAllCustomers}
-      />
-      <CustomersTableBody
-        customers={customers}
-        selectedCustomerIds={selectedCustomerIds}
-        handleSelectCustomer={handleSelectCustomer}
-        handleUpdateLastSelectedCustomerRef={
-          handleUpdateLastSelectedCustomerRef
-        }
-      />
-    </table>
+    <div className="max-w-full overflow-x-auto">
+      <table className="overflow-x-auto">
+        <CustomersTableHead
+          isCheckedCheckbox={isCheckedCheckbox}
+          handleSelectAllCustomers={handleSelectAllCustomers}
+        />
+        <CustomersTableBody
+          customers={customers}
+          selectedCustomerIds={selectedCustomerIds}
+          handleSelectCustomer={handleSelectCustomer}
+          handleUpdateLastSelectedCustomerRef={
+            handleUpdateLastSelectedCustomerRef
+          }
+          isInfiniteScroll={isInfiniteScroll}
+        />
+      </table>
+    </div>
   );
 }

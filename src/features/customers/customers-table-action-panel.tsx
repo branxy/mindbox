@@ -1,6 +1,8 @@
 import { CustomersTableTabs } from "@/features/customers/customers-table-tabs";
 import { CustomersTableAddCustomerForm } from "@/features/customers/customers-table-add-customer-form";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -22,11 +24,15 @@ interface CustomersTableActionsProps {
   setSelectedCustomerIds: React.Dispatch<
     React.SetStateAction<TSelectedCustomers>
   >;
+  isInfiniteScroll: boolean;
+  setIsInfiniteScroll: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function CustomersTableActions({
   selectedCustomerIds,
   setSelectedCustomerIds,
+  isInfiniteScroll,
+  setIsInfiniteScroll,
 }: CustomersTableActionsProps) {
   const dispatch = useAppDispatch();
   const hasSelectedCustomers = selectedCustomerIds.length > 0;
@@ -38,7 +44,17 @@ export function CustomersTableActions({
 
   return (
     <div className="flex h-auto justify-between">
-      <CustomersTableTabs />
+      <div className="flex h-auto items-center gap-6">
+        <CustomersTableTabs />
+        <div className="flex gap-2 px-4 pb-1.5 pt-2">
+          <Checkbox
+            id="set-infinite-scroll"
+            checked={isInfiniteScroll}
+            onClick={() => setIsInfiniteScroll(!isInfiniteScroll)}
+          />
+          <Label htmlFor="set-infinite-scroll">Бесконечный скролл</Label>
+        </div>
+      </div>
       <div className="flex gap-4">
         <Button
           variant="destructive"

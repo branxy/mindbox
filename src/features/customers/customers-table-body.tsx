@@ -3,6 +3,7 @@ import { CustomersTableRow } from "@/features/customers/customers-table-row";
 import { getRouteApi } from "@tanstack/react-router";
 
 import { filterCustomers } from "@/lib/utils";
+import { useInfiniteScroll } from "@/app/hooks";
 
 import { type Customers } from "@/features/customers/types";
 import { type CustomersTableProps } from "@/features/customers/customers-table";
@@ -16,6 +17,7 @@ interface CustomersTableBodyProps {
   selectedCustomerIds: CustomersTableProps["selectedCustomerIds"];
   handleSelectCustomer: CustomersTableProps["handleSelectCustomer"];
   handleUpdateLastSelectedCustomerRef: CustomersTableProps["handleUpdateLastSelectedCustomerRef"];
+  isInfiniteScroll: boolean;
 }
 
 export function CustomersTableBody({
@@ -23,8 +25,10 @@ export function CustomersTableBody({
   selectedCustomerIds,
   handleSelectCustomer,
   handleUpdateLastSelectedCustomerRef,
+  isInfiniteScroll,
 }: CustomersTableBodyProps) {
   const { tab } = useSearch();
+  const lastRowObserver = useInfiniteScroll(customers.length, isInfiniteScroll);
 
   const filteredCustomers = useMemo(
     () => filterCustomers(customers, tab),
@@ -33,17 +37,21 @@ export function CustomersTableBody({
 
   return (
     <tbody>
-      {filteredCustomers.map((c) => (
-        <CustomersTableRow
-          key={c.id}
-          customer={c}
-          selectedCustomerIds={selectedCustomerIds}
-          handleSelectCustomer={handleSelectCustomer}
-          handleUpdateLastSelectedCustomerRef={
-            handleUpdateLastSelectedCustomerRef
-          }
-        />
-      ))}
+      {filteredCustomers.map((c, i) => {
+        const lastRowRef = i === customers.length - 1 ? lastRowObserver : null;
+        return (
+          <CustomersTableRow
+            ref={lastRowRef}
+            key={c.id}
+            customer={c}
+            selectedCustomerIds={selectedCustomerIds}
+            handleSelectCustomer={handleSelectCustomer}
+            handleUpdateLastSelectedCustomerRef={
+              handleUpdateLastSelectedCustomerRef
+            }
+          />
+        );
+      })}
     </tbody>
   );
 }

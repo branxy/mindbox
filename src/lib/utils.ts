@@ -1,4 +1,5 @@
-import { current } from "@reduxjs/toolkit";
+import { faker } from "@faker-js/faker";
+import { current, nanoid } from "@reduxjs/toolkit";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -39,4 +40,20 @@ export const filterCustomers = (customers: Customers, tab: Tabs) => {
     default:
       throw new Error("Unknown tab value at filterCustomers");
   }
+};
+
+export const generateCustomers = (amount = 40) => {
+  const newCustomers: Customers = [];
+
+  for (let i = 0; i < amount; i++) {
+    const name = faker.person.firstName();
+    newCustomers.push({
+      id: nanoid(),
+      name,
+      phone: faker.phone.number({ style: "national" }),
+      email: faker.internet.email({ firstName: name, provider: "mindbox.ru" }),
+    });
+  }
+
+  return newCustomers;
 };

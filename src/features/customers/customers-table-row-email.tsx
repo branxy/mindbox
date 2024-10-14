@@ -47,11 +47,8 @@ export function CustomersTableRowEmail({
     );
   } else
     return (
-      <td className="cursor-edit">
-        <span
-          className="cursor-edit flex h-full max-w-fit pr-4"
-          onClick={() => setIsEditing(true)}
-        >
+      <td className="max-w-full cursor-edit truncate">
+        <span className="flex h-full pr-4" onClick={() => setIsEditing(true)}>
           {email}
         </span>
       </td>

@@ -2,7 +2,10 @@ import { z } from "zod";
 
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
-import { customerChanged } from "@/features/customers/customersSlice";
+import {
+  customerChanged,
+  multipleCustomersAdded,
+} from "@/features/customers/customersSlice";
 
 import type {
   Customer,
@@ -223,4 +226,40 @@ export const useSelectCustomers = (tableRows: Customers) => {
     handleSelectAllCustomers,
     handleUpdateLastSelectedCustomerRef,
   } as const;
+};
+
+export const useInfiniteScroll = (
+  customersLength: number,
+  isInfiniteScroll: boolean,
+) => {
+  const dispatch = useAppDispatch();
+  const observer = useRef<IntersectionObserver | null>();
+
+  useEffect(() => {
+    if (!customersLength && isInfiniteScroll)
+      dispatch(multipleCustomersAdded(40));
+  }, [customersLength, dispatch, isInfiniteScroll]);
+
+  const observerTarget = useCallback(
+    (node: HTMLTableRowElement) => {
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          const rowIsInView = entries[0]?.isIntersecting;
+
+          if (rowIsInView) {
+            dispatch(multipleCustomersAdded(40));
+          }
+        },
+        {
+          rootMargin: "100px",
+        },
+      );
+      if (node && isInfiniteScroll) observer.current.observe(node);
+    },
+    [dispatch, isInfiniteScroll],
+  );
+
+  return observerTarget;
 };
