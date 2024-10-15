@@ -11,13 +11,13 @@ import {
 } from "@/lib/utils";
 import { exampleCustomers } from "@/features/customers/exampleCustomersState";
 
-import type { Customer } from "@/features/customers/types";
+import type { Customer, Customers } from "@/features/customers/types";
 import { type TSelectedCustomers } from "@/app/hooks";
 
 const customersAdapter = createEntityAdapter<Customer>();
 
 const dataFromLocalStorage =
-  getFromLocalStorage("mb-customers") ?? exampleCustomers;
+  getFromLocalStorage<Customers>("mb-customers") ?? exampleCustomers;
 
 const initialState = customersAdapter.getInitialState({}, dataFromLocalStorage);
 
@@ -27,11 +27,13 @@ export const customersSlice = createSlice({
   reducers: (create) => ({
     customerAdded: create.reducer<Omit<Customer, "id">>((state, action) => {
       customersAdapter.addOne(state, { ...action.payload, id: nanoid() });
+
       saveToLocalStorage("mb-customers", state);
     }),
     multipleCustomersAdded: create.reducer<number>((state, action) => {
       const newCustomers = generateCustomers(action.payload);
       customersAdapter.addMany(state, newCustomers);
+      saveToLocalStorage("mb-customers", state);
     }),
     customerChanged: create.reducer<Update<Customer, Customer["id"]>>(
       (state, action) => {

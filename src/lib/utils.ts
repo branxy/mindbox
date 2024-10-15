@@ -10,16 +10,27 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getFromLocalStorage = (key: "mb-customers"): Customers | null => {
+export const getFromLocalStorage = <Data extends Customers | boolean>(
+  key: "mb-customers" | "mb-copyright",
+): Data | null => {
   const json = localStorage.getItem(key);
 
   if (json != null) {
     const data = JSON.parse(json);
 
-    if ("entities" in data) {
-      return Object.values(data.entities);
-    } else throw new Error("Invalid data format from localStorage");
-  } else return null;
+    if (
+      key === "mb-customers" &&
+      typeof data === "object" &&
+      "entities" in data
+    ) {
+      const customers = Object.values(data.entities) as Customers;
+      if (Array.isArray(customers)) return customers as Data;
+    } else if (key === "mb-copyright") {
+      return data;
+    }
+  }
+
+  return null;
 };
 
 export const saveToLocalStorage = (
